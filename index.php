@@ -1,4 +1,6 @@
-<?php include 'layout/header.php';
+<?php 
+    $home = 1;
+include 'layout/header.php';
     include 'layout/navbar.php'; 
 ?>
 <div class="banner">

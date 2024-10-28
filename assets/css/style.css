@@ -1,10 +1,6 @@
 *{
   margin: 0;
-  font-size: 24px;
   font-family: 'Roboto', sans-serif !important;
-}
-body{
-  background-color: #C4E1F6;
 }
 a{
 text-decoration: none !important;
@@ -20,18 +16,15 @@ text-decoration: none !important;
   overflow: hidden;
 }
 .logo img {
-  width: 80px;
-  background-color: rgba(212, 189, 172, 0.5);
-  margin-top: -25px;
+  width: 70px;
+  background-color: rgba(212, 189, 172);
+  margin-top: -23px;
   margin-bottom: -5px;
 }
 .navbar {
-  z-index: 1;
-  position: fixed;
-  background: none;
-  overflow: hidden;
-  width: 100%;
+  font-size: 20px;
   transition: background-color 0.5s ease;
+  padding: 0 !important;
 }
 
 .navbar.scrolled {

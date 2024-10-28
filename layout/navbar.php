@@ -73,7 +73,7 @@ body{
     </div>
 </div>
 <?php
-    if(!isset($home)){
+    if(isset($home)){
         echo "
         <script>
             window.addEventListener('scroll', function() {
