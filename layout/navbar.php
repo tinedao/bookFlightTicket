@@ -1,4 +1,13 @@
 <style>
+body{
+    <?php
+        if(!isset($home)){
+            echo '
+                margin-top:133.55px;
+            ';
+        }
+    ?>
+}
 .navbar {
     z-index: 1;
     position: fixed;
@@ -6,6 +15,14 @@
     overflow: hidden;
     width: 100%;
     transition: background-color 0.5s ease;
+    <?php
+        if(!isset($home)){
+            echo '
+            background-color: #D4BDAC;
+            top : 0;
+            ';
+        }
+    ?>
 }
 
 .navbar.scrolled {
@@ -55,13 +72,17 @@
         </div>
     </div>
 </div>
-<script>
-window.addEventListener('scroll', function() {
-    const navbar = document.getElementById('navbar');
-    if (window.scrollY > 0) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
-</script>
+<?php
+    if(!isset($home)){
+        echo "
+        <script>
+            window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 0) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        </script>";
+    };

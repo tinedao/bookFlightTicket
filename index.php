@@ -7,4 +7,5 @@
         <a href="booking.php" class="booking-button">Booking Now</a>
     </div>
 </div>
+
 <?php include 'layout/footer.php'; ?>
