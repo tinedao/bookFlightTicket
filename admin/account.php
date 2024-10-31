@@ -46,23 +46,27 @@ include '../config/connect.php';
                             </thead>
                             <tbody>
                                 <?php
-                                $sql = "SELECT user_id, email, phone, dob, password, full_name FROM users";
+                                $sql = "SELECT username, email, phone, dob, password, full_name FROM users";
                                 $result = mysqli_query($conn, $sql);
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        echo "<tr>";
-                                        echo "<td>" . $row['user_id'] . "</td>";
-                                        echo "<td>" . $row['email'] . "</td>";
-                                        echo "<td>" . $row['phone'] . "</td>";
-                                        echo "<td>" . $row['dob'] . "</td>";
-                                        echo "<td>" . $row['password'] . "</td>";
-                                        echo "<td>" . $row['full_name'] . "</td>";
-                                        echo "<td>
-                                                <a href='edit.php?id=" . $row['user_id'] . "' class='btn btn-info btn-sm'>Edit</a>
-                                                <a href='delete.php?id=" . $row['user_id'] . "' class='btn btn-danger btn-sm'>Delete</a>
-                                            </td>";
-                                        echo "</tr>";
+                                if (mysqli_query($conn, $sql)) {
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<tr>";
+                                            echo "<td>" . $row['username'] . "</td>";
+                                            echo "<td>" . $row['email'] . "</td>";
+                                            echo "<td>" . $row['phone'] . "</td>";
+                                            echo "<td>" . $row['dob'] . "</td>";
+                                            echo "<td>" . $row['password'] . "</td>";
+                                            echo "<td>" . $row['full_name'] . "</td>";
+                                            echo "<td>
+                                                    <a href='editAccForm.php?username=" . $row['username'] . "' class='btn btn-info btn-sm'>Edit</a>
+                                                    <a href='action/deleteAcc.php?username=" . $row['username'] . "' class='btn btn-danger btn-sm'>Delete</a>
+                                                </td>";
+                                            echo "</tr>";
+                                        }
                                     }
+                                } else {
+                                    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                                 }
                                 ?>
                             </tbody>

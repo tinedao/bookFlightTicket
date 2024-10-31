@@ -1,8 +1,6 @@
 <?php
-    $addressFolder = "About Us";
     include 'layout/header.php';
     include 'layout/navbar.php';
-    include 'layout/addressFolder.php';
 ?>
 <style>
     .bgAbout{
@@ -19,6 +17,9 @@
   z-index: -1;
 }
 </style>
+<div class="addressFolder">
+    <h1>About Us</h1>
+</div>
     <div class="bgAbout">
         
     </div>
