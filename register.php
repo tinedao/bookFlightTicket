@@ -34,6 +34,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+<style>
+    body {
+        background-image: url("assets/img/pexels-buxteh-19649705.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        font-family: 'Roboto', sans-serif !important;
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    .form {
+        padding: 20px 50px !important;
+    }
+</style>
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="form bg-white p-3 rounded shadow" style="width: 700px;">
         <div class="text-center mb-2">

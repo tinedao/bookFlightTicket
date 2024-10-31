@@ -30,11 +30,12 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 ?>
 <style>
     body {
-        background-image: url("assets/img/background.jpg");
+        background-image: url("assets/img/pexels-buxteh-19649705.jpg");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
         font-family: 'Roboto', sans-serif !important;
+        background-color: rgba(0, 0, 0, 0.8);
     }
 </style>
 

@@ -1,13 +1,15 @@
 <style>
-body{
-    <?php
-        if(!isset($home)){
-            echo '
-                margin-top:133.55px;
-            ';
-        }
+body {
+    <?php if( !isset($home)) {
+        echo '
+margin-top: 133.55px;
+        ';
+
+    }
+
     ?>
 }
+
 .navbar {
     z-index: 1;
     position: fixed;
@@ -15,13 +17,15 @@ body{
     overflow: hidden;
     width: 100%;
     transition: background-color 0.5s ease;
-    <?php
-        if(!isset($home)){
-            echo '
-            background-color: #D4BDAC;
-            top : 0;
-            ';
-        }
+
+    <?php if( !isset($home)) {
+        echo '
+background-color: #D4BDAC;
+        top: 0;
+        ';
+
+    }
+
     ?>
 }
 
@@ -40,6 +44,10 @@ body{
     background-color: red;
     color: white;
     text-decoration: none;
+}
+
+.loginBtn {
+    box-sizing: content-box !important;
 }
 </style>
 <div class="navbar" id="navbar">
@@ -66,7 +74,7 @@ body{
                 <i class="bi bi-box-arrow-right" style="margin-right: 5px;"></i>Logout
             </a>
             <?php else: ?>
-            <a href="login.php" class="btn btn-outline-light px-4">Login</a>
+                <a href="login.php" class="btn loginBtn btn-outline-light px-4">Login</a>
             <?php endif; ?>
 
         </div>
