@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 31, 2024 lúc 11:10 PM
+-- Thời gian đã tạo: Th10 01, 2024 lúc 06:41 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -164,15 +164,16 @@ CREATE TABLE `users` (
   `phone` varchar(15) DEFAULT NULL,
   `dob` date DEFAULT NULL,
   `password` varchar(255) NOT NULL,
-  `full_name` varchar(255) DEFAULT NULL
+  `full_name` varchar(255) DEFAULT NULL,
+  `wallet` decimal(10,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`username`, `email`, `phone`, `dob`, `password`, `full_name`) VALUES
-('tine19', 'tine.dao19@gmail.com', '0979499802', '2002-11-07', '$2y$10$1kE31x/3tO0zytIDuYP3zu2HTxfZUJ/o4e.TXy273r7WM0rr3WtmO', 'Đào Quang Tiến');
+INSERT INTO `users` (`username`, `email`, `phone`, `dob`, `password`, `full_name`, `wallet`) VALUES
+('tine19', 'tine.dao19@gmail.com', '0979499802', '2002-11-07', '$2y$10$/Njcwr.7t7ect6xq.292iuSUKzr6FE.ey6Zeo/LvTRlrnS1Q/kogu', 'Đào Quang Tiến', 10000.00);
 
 -- --------------------------------------------------------
 
