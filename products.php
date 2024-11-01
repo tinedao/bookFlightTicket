@@ -25,7 +25,7 @@
         airlines a ON t.airline_code = a.airline_code";
 
     if ($conn->query($sql) === TRUE) {
-        echo "View created successfully";
+
     } else {
         echo "Error creating view: " . $conn->error;
     }
@@ -61,8 +61,11 @@ $result = $stmt->get_result();
 
 .btn {
     width: 49%;
+    padding: 10px 0;
 }
-
+form {
+    width: 30%;
+}
 .img-fluid {
     max-width: none;
 }
@@ -70,6 +73,14 @@ $result = $stmt->get_result();
 table {
     border-radius: 5px;
     overflow: hidden;
+}
+.card-header{
+    background-color: #343a40;
+    color: white;
+}
+th,td{
+    text-align: center; /* Căn giữa theo chiều dọc */
+
 }
 </style>
 
@@ -80,55 +91,66 @@ table {
 <div class="contentPagesr">
     <div class="container">
     <form method="post" action="" class="d-flex justify-content-between">
-        <button name="filter" value="2" class="btn btn-secondary">Quốc tế </button>
-        <button name="filter" value="1" class="btn btn-secondary">Trong nước</button>
+        <button name="filter" value="2" class="btn btn-secondary">International</button>
+        <button name="filter" value="1" class="btn btn-secondary">Domestic</button>
     </form>
     </div>
-    <div class="container">
-        <table class="table bg-light table-striped mt-3">
-            <thead>
-                <tr>
-                    <th>Ticket ID</th>
-                    <th>Departure</th>
-                    <th>Destination</th>
-                    <th>Airline Code</th>
-                    <th>Airline Name</th>
-                    <th>Departure Time</th>
-                    <th>Price</th>
-                    <th>Discount</th>
-                    <th>Logo</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while($row = $result->fetch_assoc()) { 
-                    $airline_code = $row['airline_code'];
-                    if($airline_code == 'VNA') {
-                        $logo = 'logoVNA.png';
-                    } else if($airline_code == 'BBA') {
-                        $logo = 'bamboo.jpg';
-                    } else if($airline_code == 'VJA') {
-                        $logo = 'logoVJ.png';
-                    } else if($airline_code == 'JPA') {
-                        $logo = 'logoStar.png';
-                    }
-                    ?>
-                <tr>
-                    <td><?php echo $row['ticket_id']; ?></td>
-                    <td><?php echo $row['departure']; ?></td>
-                    <td><?php echo $row['destination']; ?></td>
-                    <td><?php echo $row['airline_code']; ?></td>
-                    <td><?php echo $row['airline_name']; ?></td>
-                    <td><?php echo $row['departure_time']; ?></td>
-                    <td>$<?php echo $row['price']; ?></td>
-                    <td><?php echo $row['discount'] * 100; ?>%</td>
-                    <td><img src="assets/img/<?php echo $logo; ?>" class="img-fluid" width="50" height="50"></td>
-                    <td><button class="btn btn-success w-100">Đặt vé</button></td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+<section class="content">
+    <div class="container-fluid w-75">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-dark">
+                    <div class="card-header">
+                        <h3 class="card-title">List of flight tickets</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="col">Departure</th>
+                                    <th class="col">Destination</th>
+                                    <th class="col">Airline Code</th>
+                                    <th class="col">Airline Name</th>
+                                    <th class="col">Departure Time</th>
+                                    <th class="col">Price</th>
+                                    <th class="col">Discount</th>
+                                    <th class="col">Logo</th>
+                                    <th class="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while($row = $result->fetch_assoc()) { 
+                                    $airline_code = $row['airline_code'];
+                                    if($airline_code == 'VNA') {
+                                        $logo = 'logoVNA.png';
+                                    } else if($airline_code == 'BBA') {
+                                        $logo = 'bamboo.jpg';
+                                    } else if($airline_code == 'VJA') {
+                                        $logo = 'logoVJ.png';
+                                    } else if($airline_code == 'JPA') {
+                                        $logo = 'logoStar.png';
+                                    }
+                                    ?>
+                                <tr>
+                                    <td><?php echo $row['departure']; ?></td>
+                                    <td><?php echo $row['destination']; ?></td>
+                                    <td><?php echo $row['airline_code']; ?></td>
+                                    <td><?php echo $row['airline_name']; ?></td>
+                                    <td><?php echo $row['departure_time']; ?></td>
+                                    <td>$<s><?php echo $row['price']; ?></s><br>$<?php echo $row['price'] * (1 - $row['discount']); ?></td>
+                                    <td><?php echo $row['discount'] * 100; ?>%</td>
+                                    <td><img src="assets/img/<?php echo $logo; ?>" class="img-fluid" width="50" height="50"></td>
+                                    <td><button class="btn btn-success w-100">Đặt vé</button></td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</section>
 </div>
 
 <?php include 'layout/footer.php'; ?>

@@ -4,7 +4,7 @@ include 'config/connect.php';
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $password = $_POST['password']; // Đổi lại thành password_verify
     $query = "SELECT * FROM users WHERE username = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('s', $username);
@@ -12,7 +12,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        if (password_verify($_POST['password'], $row['password'])) {
+        if (password_verify($password, $row['password'])) {
             session_start();
             $_SESSION['username'] = $row['username'];
             $_SESSION['full_name'] = $row['full_name'];
@@ -25,6 +25,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         echo "<script>alert('Tài khoản không tồn tại')</script>";
     }
 }
+
 
 
 ?>

@@ -10,11 +10,18 @@ margin-top: 133.55px;
     ?>
 }
 
+.infoUser {
+    width: 30%;
+}
+
+.wallet {
+    font-size: 16px;
+}
+
 .navbar {
     z-index: 1;
     position: fixed;
     background: none;
-    overflow: hidden;
     width: 100%;
     transition: background-color 0.5s ease;
 
@@ -28,7 +35,10 @@ background-color: #D4BDAC;
 
     ?>
 }
-
+i{
+    font-family: "Font Awesome 6 Free" !important;
+    padding-right: 5px;
+}
 .navbar.scrolled {
     background-color: #D4BDAC;
 }
@@ -49,6 +59,14 @@ background-color: #D4BDAC;
 .loginBtn {
     box-sizing: content-box !important;
 }
+.dropdown-item{
+    padding: 0.5rem 2rem;
+}
+.dropdown-item:hover {
+    background-color: gray  !important;
+    color: white !important;
+    transition: all 0.3s ease;
+}
 </style>
 <div class="navbar" id="navbar">
     <div class="container">
@@ -63,23 +81,60 @@ background-color: #D4BDAC;
                 <li><a href="contact.php">Contact</a></li>
             </ul>
         </nav>
+
         <div class="infoUser d-flex justify-content-end align-items-center">
             <?php 
                session_start();
+               
                if (isset($_SESSION['username'])): ?>
             <div class="ifUser me-3">
-                <p class="mb-0 text-white"><?php echo htmlspecialchars($_SESSION['full_name']); ?></p>
+                <?php
+                include 'config/connect.php';
+                $stmt = $conn->prepare("SELECT wallet,full_name FROM users WHERE username = ?");
+                $stmt->bind_param('s', $_SESSION['username']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $row = $result->fetch_assoc();
+                ?>
+                <div class="dropdown" style="z-index: 2;">
+                    <p class="mb-0 text-white dropdown-toggle" id="dropdownMenuButton" style="cursor: pointer;">
+                        <?php echo $row['full_name']; ?>
+                    </p>
+                    <ul class="dropdown-menu text-small" id="dropdownMenu">
+                        <li><a class="dropdown-item" href="recharge.php"><i class="fas fa-credit-card"></i> Nạp tiền</a></li>
+                        <li><a class="dropdown-item" href="cart.php"><i class="fas fa-ticket-alt"></i> Vé đã mua</a></li>
+                        <li><a class="dropdown-item" href="user.php"><i class="fas fa-user-edit"></i> Sửa thông tin</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="action/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </div>
+                
+                <p class=" wallet mb-0 text-white">Wallet: <?php echo number_format($row['wallet']) . ' $'; ?> </p>
             </div>
-            <a href="action/logout.php" class="logout btn btn-outline-light px-4">
-                <i class="bi bi-box-arrow-right" style="margin-right: 5px;"></i>Logout
-            </a>
-            <?php else: ?>
-                <a href="login.php" class="btn loginBtn btn-outline-light px-4">Login</a>
-            <?php endif; ?>
 
+            <?php else: ?>
+            <a href="login.php" class="btn loginBtn btn-outline-light px-4">Login</a>
+            <?php endif; ?>
         </div>
     </div>
 </div>
+<script>
+                    const dropdownToggle = document.querySelector('.dropdown-toggle');
+                    const dropdownMenu = document.querySelector('.dropdown-menu');
+
+                    dropdownToggle.addEventListener('click', function() {
+                        dropdownMenu.classList.toggle('show');
+                    });
+
+                    window.addEventListener('click', function(e) {
+                        if (!dropdownMenu.contains(e.target) &&
+                            !e.target.matches('.dropdown-toggle')) {
+                            dropdownMenu.classList.remove('show');
+                        }
+                    });
+                </script>
 <?php
     if(isset($home)){
         echo "

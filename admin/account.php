@@ -41,12 +41,13 @@ include '../config/connect.php';
                                     <th>Date of birth</th>
                                     <th>Password</th>
                                     <th>Full Name</th>
+                                    <th>Wallet</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $sql = "SELECT username, email, phone, dob, password, full_name FROM users";
+                                $sql = "SELECT username, email, phone, dob, password, full_name, wallet FROM users";
                                 $result = mysqli_query($conn, $sql);
                                 if (mysqli_query($conn, $sql)) {
                                     if (mysqli_num_rows($result) > 0) {
@@ -58,8 +59,8 @@ include '../config/connect.php';
                                             echo "<td>" . $row['dob'] . "</td>";
                                             echo "<td>" . $row['password'] . "</td>";
                                             echo "<td>" . $row['full_name'] . "</td>";
+                                            echo "<td>$" . $row['wallet'] . "</td>";
                                             echo "<td>
-                                                    <a href='editAccForm.php?username=" . $row['username'] . "' class='btn btn-info btn-sm'>Edit</a>
                                                     <a href='action/deleteAcc.php?username=" . $row['username'] . "' class='btn btn-danger btn-sm'>Delete</a>
                                                 </td>";
                                             echo "</tr>";
