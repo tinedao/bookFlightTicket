@@ -19,6 +19,7 @@ margin-top: 133.55px;
 }
 
 .navbar {
+
     z-index: 1;
     position: fixed;
     background: none;
@@ -37,7 +38,7 @@ background-color: #D4BDAC;
 }
 i{
     font-family: "Font Awesome 6 Free" !important;
-    padding-right: 5px;
+    padding-right: 10px;
 }
 .navbar.scrolled {
     background-color: #D4BDAC;
@@ -60,12 +61,18 @@ i{
     box-sizing: content-box !important;
 }
 .dropdown-item{
-    padding: 0.5rem 2rem;
+    padding: 10px 30px;
 }
 .dropdown-item:hover {
     background-color: gray  !important;
     color: white !important;
     transition: all 0.3s ease;
+}
+.logo{
+    width: 30%;
+}
+nav{
+    width: 40%;
 }
 </style>
 <div class="navbar" id="navbar">
@@ -101,9 +108,9 @@ i{
                         <?php echo $row['full_name']; ?>
                     </p>
                     <ul class="dropdown-menu text-small" id="dropdownMenu">
-                        <li><a class="dropdown-item" href="recharge.php"><i class="fas fa-credit-card"></i> Nạp tiền</a></li>
-                        <li><a class="dropdown-item" href="cart.php"><i class="fas fa-ticket-alt"></i> Vé đã mua</a></li>
-                        <li><a class="dropdown-item" href="user.php"><i class="fas fa-user-edit"></i> Sửa thông tin</a></li>
+                        <li><a class="dropdown-item" href="recharge.php"><i class="fas fa-credit-card"></i> Recharge</a></li>
+                        <li><a class="dropdown-item" href="cart.php"><i class="fas fa-ticket-alt"></i> Card</a></li>
+                        <li><a class="dropdown-item" href="user.php"><i class="fas fa-user-edit"></i>Information</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

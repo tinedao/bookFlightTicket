@@ -3,40 +3,13 @@
     include 'layout/navbar.php';
     include 'config/connect.php';
 
-    $sql = "CREATE OR REPLACE VIEW ticket_view AS
-    SELECT 
-        t.ticket_id,
-        l1.location_name AS departure,
-        l2.location_name AS destination,
-        t.airline_code,
-        a.airline_name,
-        t.departure_time,
-        t.price,
-        t.discount,
-        l1.type_ticket AS departure_type_ticket,
-        l2.type_ticket AS destination_type_ticket
-    FROM 
-        tickets t
-    JOIN 
-        locations l1 ON t.departure = l1.location_id
-    JOIN 
-        locations l2 ON t.destination = l2.location_id
-    JOIN 
-        airlines a ON t.airline_code = a.airline_code";
-
-    if ($conn->query($sql) === TRUE) {
-
-    } else {
-        echo "Error creating view: " . $conn->error;
-    }
-
 $location_type = 1;
 
-if(isset($_POST['filter'])) {
-    $location_type = $_POST['filter'];
+if(isset($_GET['filter'])) {
+    $location_type = $_GET['filter'];
 }
 
-$sql = "SELECT ticket_id, departure, destination, airline_code, airline_name, departure_time,  price, discount 
+$sql = "SELECT ticket_id, departure, destination, quantity, airline_code, airline_name, departure_time,  price, discount 
         FROM ticket_view 
         WHERE destination_type_ticket = ? OR destination_type_ticket = ?";
 
@@ -46,6 +19,10 @@ $stmt->execute();
 $result = $stmt->get_result();
 ?>
 <style>
+.card-title {
+    margin: 10px 0;
+}
+
 .bgPages {
     background-image: url('assets/img/pexels-stefanstefancik-91217.jpg');
 }
@@ -63,9 +40,11 @@ $result = $stmt->get_result();
     width: 49%;
     padding: 10px 0;
 }
+
 form {
     width: 30%;
 }
+
 .img-fluid {
     max-width: none;
 }
@@ -74,13 +53,33 @@ table {
     border-radius: 5px;
     overflow: hidden;
 }
-.card-header{
+
+.card-header {
     background-color: #343a40;
     color: white;
 }
-th,td{
-    text-align: center; /* Căn giữa theo chiều dọc */
 
+th,
+td {
+    text-align: center;
+    /* Căn giữa theo chiều dọc */
+
+}
+
+.imgLogo {
+    overflow: hidden;
+    width: 110px;
+    height: 100px !important;
+    padding: 0 !important;
+}
+
+td {
+    vertical-align: middle !important;
+}
+
+.active {
+    background-color: greenyellow !important;
+    color: black !important;
 }
 </style>
 
@@ -90,36 +89,40 @@ th,td{
 <div class="bgPages"></div>
 <div class="contentPagesr">
     <div class="container">
-    <form method="post" action="" class="d-flex justify-content-between">
-        <button name="filter" value="2" class="btn btn-secondary">International</button>
-        <button name="filter" value="1" class="btn btn-secondary">Domestic</button>
-    </form>
+
     </div>
-<section class="content">
-    <div class="container-fluid w-75">
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-dark">
-                    <div class="card-header">
-                        <h3 class="card-title">List of flight tickets</h3>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="col">Departure</th>
-                                    <th class="col">Destination</th>
-                                    <th class="col">Airline Code</th>
-                                    <th class="col">Airline Name</th>
-                                    <th class="col">Departure Time</th>
-                                    <th class="col">Price</th>
-                                    <th class="col">Discount</th>
-                                    <th class="col">Logo</th>
-                                    <th class="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php while($row = $result->fetch_assoc()) { 
+    <section class="content">
+        <div class="container-fluid w-75">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-dark">
+                        <div class="card-header d-flex justify-content-between">
+                            <h3 class="card-title">List of flight tickets</h3>
+                            <form action="?filter=<?php echo $location_type; ?>" method="get">
+                                <button name="filter" value="2"
+                                    class="btn btn-secondary <?php if($location_type == 2) echo 'active'; ?>">International</button>
+                                <button name="filter" value="1"
+                                    class="btn btn-secondary <?php if($location_type == 1) echo 'active'; ?>">Domestic</button>
+                            </form>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="col">Departure</th>
+                                        <th class="col">Destination</th>
+                                        <th class="col">Airline Code</th>
+                                        <th class="col">Airline Name</th>
+                                        <th class="col">Departure Time</th>
+                                        <th class="col">Price</th>
+                                        <th class="col">Discount</th>
+                                        <th class="col">Brand</th>
+                                        <th class="col-1">Remaining</th>
+                                        <th class="col-1">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while($row = $result->fetch_assoc()) { 
                                     $airline_code = $row['airline_code'];
                                     if($airline_code == 'VNA') {
                                         $logo = 'logoVNA.png';
@@ -131,28 +134,32 @@ th,td{
                                         $logo = 'logoStar.png';
                                     }
                                     ?>
-                                <tr>
-                                    <td><?php echo $row['departure']; ?></td>
-                                    <td><?php echo $row['destination']; ?></td>
-                                    <td><?php echo $row['airline_code']; ?></td>
-                                    <td><?php echo $row['airline_name']; ?></td>
-                                    <td><?php echo $row['departure_time']; ?></td>
-                                    <td>$<s><?php echo $row['price']; ?></s><br>$<?php echo $row['price'] * (1 - $row['discount']); ?></td>
-                                    <td><?php echo $row['discount'] * 100; ?>%</td>
-                                    <td><img src="assets/img/<?php echo $logo; ?>" class="img-fluid" width="50" height="50"></td>
-                                    <td><button class="btn btn-success w-100">Đặt vé</button></td>
-                                </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                    <tr>
+                                        <td><?php echo $row['departure']; ?></td>
+                                        <td><?php echo $row['destination']; ?></td>
+                                        <td><?php echo $row['airline_code']; ?></td>
+                                        <td><?php echo $row['airline_name']; ?></td>
+                                        <td><?php echo $row['departure_time']; ?></td>
+                                        <td style="color: red; font-weight: bold"><?php
+                                        if($row['discount'] != 0) {
+                                            echo '<s style="color: black !important; font-weight: lighter; !important">$'.number_format($row['price']) .'a</s><br>';
+                                        }
+                                    ?>$<?php echo number_format($row['price'] * (1 - $row['discount'])); ?></td>
+                                        <td><?php echo $row['discount'] * 100; ?>%</td>
+                                        <td class="imgLogo"><img src="assets/img/<?php echo $logo; ?>" class="img-fluid"
+                                                width="100" height="100"></td>
+                                        <td><?php echo $row['quantity']; ?></td>
+                                        <td><button class="btn btn-success w-100">Đặt vé</button></td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 </div>
 
 <?php include 'layout/footer.php'; ?>
-
-
