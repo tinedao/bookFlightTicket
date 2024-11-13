@@ -62,8 +62,6 @@ table {
 th,
 td {
     text-align: center;
-    /* Căn giữa theo chiều dọc */
-
 }
 
 .imgLogo {
@@ -80,6 +78,9 @@ td {
 .active {
     background-color: greenyellow !important;
     color: black !important;
+}
+.formOrder{
+    width: 100%;
 }
 </style>
 
@@ -142,14 +143,18 @@ td {
                                         <td><?php echo $row['departure_time']; ?></td>
                                         <td style="color: red; font-weight: bold"><?php
                                         if($row['discount'] != 0) {
-                                            echo '<s style="color: black !important; font-weight: lighter; !important">$'.number_format($row['price']) .'a</s><br>';
+                                            echo '<s style="color: black !important; font-weight: lighter; !important">$'.number_format($row['price']) .'</s><br>';
                                         }
                                     ?>$<?php echo number_format($row['price'] * (1 - $row['discount'])); ?></td>
                                         <td><?php echo $row['discount'] * 100; ?>%</td>
-                                        <td class="imgLogo"><img src="assets/img/<?php echo $logo; ?>" class="img-fluid"
-                                                width="100" height="100"></td>
+                                        <td class="imgLogo"><img src="assets/img/<?php echo $logo; ?>" class="img-fluid" width="100" height="100"></td>
                                         <td><?php echo $row['quantity']; ?></td>
-                                        <td><button class="btn btn-success w-100">Đặt vé</button></td>
+                                        <td>
+                                            <form class="formOrder" action="detailPro.php" method="get">
+                                                <input type="hidden" name="ticket_id" value="<?php echo $row['ticket_id']; ?>">
+                                                <button type="submit" class="btn btn-success w-100">Đặt vé</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                     <?php } ?>
                                 </tbody>
