@@ -1,0 +1,1 @@
+tạo lại trang cart sửa thành input number số lượng vé khi bấm đặt thì vào detailPro để tiến hành thanh toán

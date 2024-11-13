@@ -9,7 +9,7 @@ if(isset($_GET['filter'])) {
     $location_type = $_GET['filter'];
 }
 
-$sql = "SELECT ticket_id, departure, destination, quantity, airline_code, airline_name, departure_time,  price, discount 
+$sql = "SELECT ticket_id, departure, destination, remaining, airline_code, airline_name, departure_time,  price, discount 
         FROM ticket_view 
         WHERE destination_type_ticket = ? OR destination_type_ticket = ?";
 
@@ -79,7 +79,8 @@ td {
     background-color: greenyellow !important;
     color: black !important;
 }
-.formOrder{
+
+.formOrder {
     width: 100%;
 }
 </style>
@@ -147,11 +148,13 @@ td {
                                         }
                                     ?>$<?php echo number_format($row['price'] * (1 - $row['discount'])); ?></td>
                                         <td><?php echo $row['discount'] * 100; ?>%</td>
-                                        <td class="imgLogo"><img src="assets/img/<?php echo $logo; ?>" class="img-fluid" width="100" height="100"></td>
-                                        <td><?php echo $row['quantity']; ?></td>
+                                        <td class="imgLogo"><img src="assets/img/<?php echo $logo; ?>" class="img-fluid"
+                                                width="100" height="100"></td>
+                                        <td><?php echo $row['remaining']; ?></td>
                                         <td>
-                                            <form class="formOrder" action="detailPro.php" method="get">
-                                                <input type="hidden" name="ticket_id" value="<?php echo $row['ticket_id']; ?>">
+                                            <form class="formOrder" action="action/handleOrder.php" method="post">
+                                                <input type="hidden" name="ticket_id"
+                                                    value="<?php echo $row['ticket_id']; ?>">
                                                 <button type="submit" class="btn btn-success w-100">Đặt vé</button>
                                             </form>
                                         </td>

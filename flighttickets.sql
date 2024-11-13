@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 01, 2024 lúc 06:41 AM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.0.30
+-- Host: 127.0.0.1
+-- Generation Time: Nov 13, 2024 at 04:38 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `flighttickets`
+-- Database: `flighttickets`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `admin`
+-- Table structure for table `admin`
 --
 
 CREATE TABLE `admin` (
@@ -34,7 +34,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `admin`
+-- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`userAd`, `passwordAd`, `role`) VALUES
@@ -43,7 +43,7 @@ INSERT INTO `admin` (`userAd`, `passwordAd`, `role`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `airlines`
+-- Table structure for table `airlines`
 --
 
 CREATE TABLE `airlines` (
@@ -53,7 +53,7 @@ CREATE TABLE `airlines` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `airlines`
+-- Dumping data for table `airlines`
 --
 
 INSERT INTO `airlines` (`airline_id`, `airline_code`, `airline_name`) VALUES
@@ -65,7 +65,21 @@ INSERT INTO `airlines` (`airline_id`, `airline_code`, `airline_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `contactus`
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `cart_id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `ticket_id` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT 1,
+  `paid` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contactus`
 --
 
 CREATE TABLE `contactus` (
@@ -76,7 +90,7 @@ CREATE TABLE `contactus` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `contactus`
+-- Dumping data for table `contactus`
 --
 
 INSERT INTO `contactus` (`id`, `email`, `phonenumber`, `message`) VALUES
@@ -85,7 +99,7 @@ INSERT INTO `contactus` (`id`, `email`, `phonenumber`, `message`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `locations`
+-- Table structure for table `locations`
 --
 
 CREATE TABLE `locations` (
@@ -95,7 +109,7 @@ CREATE TABLE `locations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `locations`
+-- Dumping data for table `locations`
 --
 
 INSERT INTO `locations` (`location_id`, `location_name`, `type_ticket`) VALUES
@@ -110,7 +124,7 @@ INSERT INTO `locations` (`location_id`, `location_name`, `type_ticket`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tickets`
+-- Table structure for table `tickets`
 --
 
 CREATE TABLE `tickets` (
@@ -120,23 +134,45 @@ CREATE TABLE `tickets` (
   `airline_code` varchar(10) DEFAULT NULL,
   `departure_time` datetime DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
-  `discount` decimal(5,2) DEFAULT 0.00
+  `discount` decimal(5,2) DEFAULT 0.00,
+  `remaining` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `tickets`
+-- Dumping data for table `tickets`
 --
 
-INSERT INTO `tickets` (`ticket_id`, `departure`, `destination`, `airline_code`, `departure_time`, `price`, `discount`) VALUES
-(1, 1, 2, 'VNA', '2024-11-01 10:00:00', 150.00, 0.10),
-(2, 3, 4, 'BBA', '2024-11-02 12:00:00', 120.00, 0.15),
-(3, 2, 5, 'VJA', '2024-11-03 15:00:00', 100.00, 0.05),
-(4, 1, 6, 'VJA', '2024-11-15 04:58:32', 5000.00, 0.00);
+INSERT INTO `tickets` (`ticket_id`, `departure`, `destination`, `airline_code`, `departure_time`, `price`, `discount`, `remaining`) VALUES
+(1, 1, 2, 'VNA', '2024-11-01 10:00:00', 150.00, 0.10, 100),
+(2, 3, 4, 'BBA', '2024-11-02 12:00:00', 120.00, 0.15, 50),
+(3, 2, 5, 'VJA', '2024-11-03 15:00:00', 100.00, 0.05, 200),
+(4, 1, 6, 'VJA', '2024-11-15 04:58:32', 5000.00, 0.00, 10);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc đóng vai cho view `ticket_view`
+-- Stand-in structure for view `ticket_cart_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `ticket_cart_view` (
+`ticket_id` int(11)
+,`departure` varchar(255)
+,`destination` varchar(255)
+,`airline_code` varchar(10)
+,`airline_name` varchar(255)
+,`departure_time` datetime
+,`price` decimal(10,2)
+,`discount` decimal(5,2)
+,`quantity` int(11)
+,`paid` tinyint(1)
+,`username` varchar(255)
+,`total_price` decimal(26,4)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `ticket_view`
 -- (See below for the actual view)
 --
 CREATE TABLE `ticket_view` (
@@ -148,6 +184,7 @@ CREATE TABLE `ticket_view` (
 ,`departure_time` datetime
 ,`price` decimal(10,2)
 ,`discount` decimal(5,2)
+,`remaining` int(11)
 ,`departure_type_ticket` tinyint(4)
 ,`destination_type_ticket` tinyint(4)
 );
@@ -155,7 +192,7 @@ CREATE TABLE `ticket_view` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -169,7 +206,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`username`, `email`, `phone`, `dob`, `password`, `full_name`, `wallet`) VALUES
@@ -178,45 +215,63 @@ INSERT INTO `users` (`username`, `email`, `phone`, `dob`, `password`, `full_name
 -- --------------------------------------------------------
 
 --
--- Cấu trúc cho view `ticket_view`
+-- Structure for view `ticket_cart_view`
+--
+DROP TABLE IF EXISTS `ticket_cart_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ticket_cart_view`  AS SELECT `t`.`ticket_id` AS `ticket_id`, `l1`.`location_name` AS `departure`, `l2`.`location_name` AS `destination`, `t`.`airline_code` AS `airline_code`, `a`.`airline_name` AS `airline_name`, `t`.`departure_time` AS `departure_time`, `t`.`price` AS `price`, `t`.`discount` AS `discount`, `c`.`quantity` AS `quantity`, `c`.`paid` AS `paid`, `c`.`username` AS `username`, `t`.`price`* `c`.`quantity` * (1 - `t`.`discount`) AS `total_price` FROM ((((`tickets` `t` join `locations` `l1` on(`t`.`departure` = `l1`.`location_id`)) join `locations` `l2` on(`t`.`destination` = `l2`.`location_id`)) join `airlines` `a` on(`t`.`airline_code` = `a`.`airline_code`)) left join `cart` `c` on(`t`.`ticket_id` = `c`.`ticket_id`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `ticket_view`
 --
 DROP TABLE IF EXISTS `ticket_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ticket_view`  AS SELECT `t`.`ticket_id` AS `ticket_id`, `l1`.`location_name` AS `departure`, `l2`.`location_name` AS `destination`, `t`.`airline_code` AS `airline_code`, `a`.`airline_name` AS `airline_name`, `t`.`departure_time` AS `departure_time`, `t`.`price` AS `price`, `t`.`discount` AS `discount`, `l1`.`type_ticket` AS `departure_type_ticket`, `l2`.`type_ticket` AS `destination_type_ticket` FROM (((`tickets` `t` join `locations` `l1` on(`t`.`departure` = `l1`.`location_id`)) join `locations` `l2` on(`t`.`destination` = `l2`.`location_id`)) join `airlines` `a` on(`t`.`airline_code` = `a`.`airline_code`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ticket_view`  AS SELECT `t`.`ticket_id` AS `ticket_id`, `l1`.`location_name` AS `departure`, `l2`.`location_name` AS `destination`, `t`.`airline_code` AS `airline_code`, `a`.`airline_name` AS `airline_name`, `t`.`departure_time` AS `departure_time`, `t`.`price` AS `price`, `t`.`discount` AS `discount`, `t`.`remaining` AS `remaining`, `l1`.`type_ticket` AS `departure_type_ticket`, `l2`.`type_ticket` AS `destination_type_ticket` FROM (((`tickets` `t` join `locations` `l1` on(`t`.`departure` = `l1`.`location_id`)) join `locations` `l2` on(`t`.`destination` = `l2`.`location_id`)) join `airlines` `a` on(`t`.`airline_code` = `a`.`airline_code`)) ;
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `admin`
+-- Indexes for table `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`userAd`),
   ADD UNIQUE KEY `userAd` (`userAd`);
 
 --
--- Chỉ mục cho bảng `airlines`
+-- Indexes for table `airlines`
 --
 ALTER TABLE `airlines`
   ADD PRIMARY KEY (`airline_id`),
   ADD UNIQUE KEY `airline_code` (`airline_code`);
 
 --
--- Chỉ mục cho bảng `contactus`
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`cart_id`),
+  ADD KEY `username` (`username`),
+  ADD KEY `ticket_id` (`ticket_id`),
+  ADD KEY `quantity` (`quantity`);
+
+--
+-- Indexes for table `contactus`
 --
 ALTER TABLE `contactus`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `locations`
+-- Indexes for table `locations`
 --
 ALTER TABLE `locations`
   ADD PRIMARY KEY (`location_id`),
   ADD UNIQUE KEY `location_name` (`location_name`);
 
 --
--- Chỉ mục cho bảng `tickets`
+-- Indexes for table `tickets`
 --
 ALTER TABLE `tickets`
   ADD PRIMARY KEY (`ticket_id`),
@@ -225,7 +280,7 @@ ALTER TABLE `tickets`
   ADD KEY `airline_code` (`airline_code`);
 
 --
--- Chỉ mục cho bảng `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`username`),
@@ -233,39 +288,52 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `airlines`
+-- AUTO_INCREMENT for table `airlines`
 --
 ALTER TABLE `airlines`
   MODIFY `airline_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT cho bảng `contactus`
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `contactus`
 --
 ALTER TABLE `contactus`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT cho bảng `locations`
+-- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
   MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT cho bảng `tickets`
+-- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
   MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- Constraints for dumped tables
 --
 
 --
--- Các ràng buộc cho bảng `tickets`
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`),
+  ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`ticket_id`);
+
+--
+-- Constraints for table `tickets`
 --
 ALTER TABLE `tickets`
   ADD CONSTRAINT `tickets_ibfk_1` FOREIGN KEY (`departure`) REFERENCES `locations` (`location_id`),
