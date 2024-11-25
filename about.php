@@ -1,4 +1,5 @@
 <?php
+$pages="about";
     include 'layout/header.php';
     include 'layout/navbar.php';
 ?>

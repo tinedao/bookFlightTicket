@@ -36,11 +36,11 @@ $result = mysqli_query($conn, $query);
             echo "<td>" . $row["airline_id"] . "</td>";
             echo "<td>" . $row["airline_name"] . "</td>";
             echo "<td>" . $row["airline_code"] . "</td>";
-            echo "<td><a href='add-airline.php?id=" . $row["airline_id"] . "' class='btn btn-info btn-sm'>Edit</a> <a href='delete-airline.php?id=" . $row["airline_id"] . "' class='btn btn-danger btn-sm'>Delete</a></td>";
+            echo "<td><a href='editA.php?id=" . $row["airline_id"] . "' class='btn btn-info btn-sm'>Edit</a> <a href='action/delete-airline.php?id=" . $row["airline_id"] . "' class='btn btn-danger btn-sm'>Delete</a></td>";
             echo "</tr>";
         }
         echo "</table>";
-        echo "<a href='add-airline.php' class='btn btn-primary'>Add</a>";
+        echo "<a href='addA.php' class='btn btn-primary'>Add</a>";
     } else {
         echo "0 results";
     }

@@ -2,7 +2,7 @@
 body {
     <?php if( !isset($home)) {
         echo '
-margin-top: 133.55px;
+margin-top: 96.55px;
         ';
 
     }
@@ -11,7 +11,7 @@ margin-top: 133.55px;
 }
 
 .infoUser {
-    width: 30%;
+    width: 25%;
 }
 
 .wallet {
@@ -20,7 +20,7 @@ margin-top: 133.55px;
 
 .navbar {
 
-    z-index: 1;
+    z-index: 100;
     position: fixed;
     background: none;
     width: 100%;
@@ -36,10 +36,7 @@ background-color: #D4BDAC;
 
     ?>
 }
-i{
-    font-family: "Font Awesome 6 Free" !important;
-    padding-right: 10px;
-}
+
 .navbar.scrolled {
     background-color: #D4BDAC;
 }
@@ -59,22 +56,52 @@ i{
 
 .loginBtn {
     box-sizing: content-box !important;
+    width: 25% !important;
 }
-.dropdown-item{
+
+.dropdown-item {
     padding: 10px 30px;
 }
+
 .dropdown-item:hover {
-    background-color: gray  !important;
+    background-color: gray !important;
     color: white !important;
     transition: all 0.3s ease;
 }
-.logo{
-    width: 30%;
+
+.logo {
+    width: 20%;
 }
-nav{
-    width: 40%;
+
+nav {
+    width: 55%;
+}
+
+#scrollTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: #FFA500; /* Bright orange color */
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 0, 0.5); /* Yellow glow */
+    height: 50px;
+    width: 50px;
+}
+
+#scrollTopBtn:hover {
+    background-color: #FFD700; /* Gold color on hover */
 }
 </style>
+<button id="scrollTopBtn" class="btn btn-primary">
+    <i class="fas fa-arrow-up"></i> <!-- Font Awesome up arrow -->
+</button>
 <div class="navbar" id="navbar">
     <div class="container">
         <div class="logo">
@@ -86,6 +113,7 @@ nav{
                 <li><a href="products.php">Products</a></li>
                 <li><a href="about.php">About Us</a></li>
                 <li><a href="contact.php">Contact</a></li>
+                <li><a href="discussion.php">Discussion</a></li>
             </ul>
         </nav>
 
@@ -108,16 +136,19 @@ nav{
                         <?php echo $row['full_name']; ?>
                     </p>
                     <ul class="dropdown-menu text-small" id="dropdownMenu">
-                        <li><a class="dropdown-item" href="recharge.php"><i class="fas fa-credit-card"></i> Recharge</a></li>
-                        <li><a class="dropdown-item" href="cart.php"><i class="fas fa-ticket-alt"></i> Card</a></li>
-                        <li><a class="dropdown-item" href="user.php"><i class="fas fa-user-edit"></i>Information</a></li>
+                        <li><a class="dropdown-item" href="recharge.php"><i class="fas fa-credit-card"></i> Recharge</a>
+                        </li>
+                        <li><a class="dropdown-item" href="cart.php"><i class="fas fa-ticket-alt"></i> Cart</a></li>
+                        <li><a class="dropdown-item" href="user.php"><i class="fas fa-user-edit"></i>Information</a>
+                        </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item text-danger" href="action/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        <li><a class="dropdown-item text-danger" href="action/logout.php"><i
+                                    class="fas fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </div>
-                
+
                 <p class=" wallet mb-0 text-white">Wallet: <?php echo number_format($row['wallet']) . ' $'; ?> </p>
             </div>
 
@@ -128,20 +159,36 @@ nav{
     </div>
 </div>
 <script>
-                    const dropdownToggle = document.querySelector('.dropdown-toggle');
-                    const dropdownMenu = document.querySelector('.dropdown-menu');
+const dropdownToggle = document.querySelector('.dropdown-toggle');
+const dropdownMenu = document.querySelector('.dropdown-menu');
 
-                    dropdownToggle.addEventListener('click', function() {
-                        dropdownMenu.classList.toggle('show');
-                    });
+dropdownToggle.addEventListener('click', function() {
+    dropdownMenu.classList.toggle('show');
+});
 
-                    window.addEventListener('click', function(e) {
-                        if (!dropdownMenu.contains(e.target) &&
-                            !e.target.matches('.dropdown-toggle')) {
-                            dropdownMenu.classList.remove('show');
-                        }
-                    });
-                </script>
+window.addEventListener('click', function(e) {
+    if (!dropdownMenu.contains(e.target) &&
+        !e.target.matches('.dropdown-toggle')) {
+        dropdownMenu.classList.remove('show');
+    }
+});
+window.onscroll = function() {
+    scrollFunction();
+};
+
+function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        document.getElementById("scrollTopBtn").style.display = "block";
+    } else {
+        document.getElementById("scrollTopBtn").style.display = "none";
+    }
+}
+
+document.getElementById('scrollTopBtn').addEventListener('click', function() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+});
+</script>
 <?php
     if(isset($home)){
         echo "

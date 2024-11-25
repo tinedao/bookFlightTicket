@@ -1,4 +1,5 @@
 <?php
+$pages="contact";
     include 'layout/header.php';
     include 'config/connect.php';
     include 'layout/navbar.php';
@@ -47,10 +48,6 @@ a:hover {
 background: #39459b; }
 
 .wrapper {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  background-size: cover; 
     padding-top: 80px;
 }
 

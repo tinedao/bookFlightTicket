@@ -6,15 +6,16 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT passwordAd FROM admin WHERE userAd = ?";
+    $sql = "SELECT passwordAd, userAd FROM admin WHERE userAd = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('s', $email);
     $stmt->execute();
-    $stmt->bind_result($hashedPassword);
+    $stmt->bind_result($hashedPassword, $username);
     $stmt->fetch();
 
     if ($hashedPassword && password_verify($password, $hashedPassword)) {
         $_SESSION['email'] = $email;
+        $_SESSION['userAd'] = $username;
         header("Location: home.php");
     } else {
         $error = "Email hoặc mật khẩu không đúng";
