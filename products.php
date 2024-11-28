@@ -63,7 +63,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($applyDateFilter && $result->num_rows == 0) {
-    // Nếu lọc theo ngày tháng nhưng không có kết quả, thực hiện truy vấn lại không có lọc ngày tháng
     $whereClauses = ["(destination_type_ticket = ? OR destination_type_ticket = ?)"];
     $params = [$location_type, $location_type, $username];
     $types = 'iis';
@@ -217,11 +216,17 @@ td {
                                         </td>
                                         <td><?php echo $row['remaining']; ?></td>
                                         <td>
-                                            <?php if ($row['ticket_status'] == 'In Cart') { ?>
-                                                <a href="cart.php" class="btn btn-secondary w-100">Vào giỏ hàng</a>
-                                            <?php } else { ?>
-                                                <a href="detailPro.php?ticket_id=<?php echo $row['ticket_id']; ?>" class="btn btn-success w-100">Đặt vé</a>
-                                            <?php } ?>
+                                            <?php 
+                                            if(isset($_SESSION['username'])) {
+                                                if ($row['ticket_status'] == 'In Cart') {
+                                                    echo '<a href="cart.php" class="btn btn-secondary w-100">Vào giỏ hàng</a>';
+                                                } else {
+                                                    echo '<a href="detailPro.php?ticket_id=' . $row['ticket_id'] .'" class="btn btn-success w-100">Đặt vé</a>';
+                                                }
+                                            }else{
+                                                echo '<a href="login.php" class="btn btn-success w-100">Đặt vé</a>';
+                                            }
+                                            ?>
                                         </td>
                                     </tr>
                                     <?php } ?>

@@ -4,12 +4,6 @@ include 'layout/header.php';
 include 'layout/navbar.php'; 
 
 ?>
-
-
-
-
-
-
 <style>
 body {
     background-image: url('assets/img/bg-mb.b54724f5.webp');
