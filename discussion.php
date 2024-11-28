@@ -3,6 +3,7 @@ ob_start(); // Bắt đầu output buffering
 include 'layout/header.php';
 include 'layout/navbar.php';
 include 'config/connect.php';
+include 'config/libFunc.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['thought'])) {
@@ -291,7 +292,7 @@ ob_end_flush(); // Kết thúc output buffering và gửi đầu ra
                 <strong><?php echo $row['full_name']; ?></strong>
                 <div class="optionP">
                     <?php if (isset($_SESSION['username']) && $_SESSION['username'] == $row['username']): ?>
-                    <a href="deletePost.php?id=<?php echo $row['id']; ?>"
+                    <a href="action/deletePost.php?id=<?php echo $row['id']; ?>"
                         onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')" class="btn"><i
                             class="fa-solid fa-trash"></i></a>
                     <?php endif; ?>
@@ -345,6 +346,7 @@ ob_end_flush(); // Kết thúc output buffering và gửi đầu ra
 </div>
 <?php endwhile; ?>
 <?php else: ?>
+    <br>
 <p>Không có bài viết nào.</p>
 <?php endif; ?>
 <script>

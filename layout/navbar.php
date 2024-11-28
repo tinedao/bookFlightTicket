@@ -1,8 +1,8 @@
 <style>
 body {
-    <?php if( !isset($home)) {
+    <?php if(!isset($home)) {
         echo '
-margin-top: 96.55px;
+            margin-top: 96.55px;
         ';
 
     }
@@ -57,6 +57,7 @@ background-color: #D4BDAC;
 .loginBtn {
     box-sizing: content-box !important;
     width: 25% !important;
+    font-weight: bold;
 }
 
 .dropdown-item {

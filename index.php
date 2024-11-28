@@ -1,7 +1,13 @@
 <?php 
+$home = 1;
 include 'layout/header.php';
 include 'layout/navbar.php'; 
+
 ?>
+
+
+
+
 
 
 <style>
@@ -20,8 +26,6 @@ body {
 }
 
 .banner-img {
-    width: 100%;
-    height: 100%;
     background-size: cover;
     background-position: center;
 }
@@ -88,11 +92,40 @@ th,
 td {
     text-align: center;
 }
+.brand{
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    background-color: #fff;
+    position: absolute;
+    top: -50px;
+    left: 150px;
+    border-radius: 50px;
+    border: 1px solid black;
+}
+
+.imgBrand {
+    width: auto;
+    max-height: 100px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+}
 </style>
 
 <div class="banner">
     <div class="banner-img" style="background-image: url('assets/img/herobanner.jpg');">
         <a href="products.php" class="booking-button">Booking Now</a>
+    </div>
+</div>
+<div class="container d-block position-relative" style="z-index: 3;">
+    <div class="brand">
+        <img class="imgBrand" src="assets/img/bamboo.jpg" alt="">
+        <img class="imgBrand" src="assets/img/logoStar.png" alt="">
+        <img class="imgBrand" src="assets/img/logoVJ.png" alt="">
+        <img class="imgBrand" src="assets/img/logoVNA.png" alt="">
     </div>
 </div>
 
@@ -220,7 +253,6 @@ td {
 <!-- Social Network Section -->
 
 
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
 
 <?php include 'layout/footer.php'; ?>
